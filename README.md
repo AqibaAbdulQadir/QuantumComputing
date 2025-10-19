@@ -1,53 +1,61 @@
-# 🌠 Aqiba's Quantum Playground
 
-> *Explore the mysteries of quantum mechanics  one qubit at a time.*
+#  Aqiba’s Quantum Playground
 
-![Streamlit](https://img.shields.io/badge/Framework-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
-![Qiskit](https://img.shields.io/badge/Quantum%20Engine-Qiskit-6929C4?style=for-the-badge&logo=qiskit&logoColor=white)
-![Python](https://img.shields.io/badge/Built%20with-Python%203.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+---
+> *Explore the mysteries of quantum mechanics with Sulphite one qubit at a time* :D
 
-**My Quantum Playground** is an interactive web app that lets you **visualize**, **experiment**, and **learn** quantum computing concepts right from your browser.  
+
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Framework-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white">
+  <img src="https://img.shields.io/badge/Quantum%20Engine-Qiskit-6929C4?style=for-the-badge&logo=qiskit&logoColor=white">
+  <img src="https://img.shields.io/badge/Built%20with-Python%203.10+-3776AB?style=for-the-badge&logo=python&logoColor=white">
+</p>
+
+**Quantum Playground** is an interactive web app that lets you **visualize**, **experiment**, and **learn** quantum computing concepts right from your browser.
 Whether you're exploring **entanglement**, **superposition**, or **teleportation**, this playground brings the abstract world of qubits to life.
 
 ---
 
-## 🏁 Live Demo
+##  Live Demo
 
-🌐 Try it on Streamlit Cloud at [quantumcomputingplayground.streamlit.app ](https://quantumcomputingplayground.streamlit.app/)<br/>
-**Note:** App will only be accessible if it isn't asleep. If it sleeps, contact me to reboot.
+🌐 **Try it here:** [quantumcomputingplayground.streamlit.app](https://quantumcomputingplayground.streamlit.app/)
 
----
-
-## ✨ Features
-
-🔹 **Bell State Generator**: Create and visualize all four Bell states (Φ⁺, Φ⁻, Ψ⁺, Ψ⁻).  
-🔹 **Bloch Sphere Visualization**: See your qubits orientations and basis vectors in real time.  
-🔹 **Quantum Circuit Builder**: Watch gates (H, X, Z, CNOT) evolve your state step-by-step.  
-🔹 **Live Statevector Display**: Instantly see the amplitudes of |00⟩, |01⟩, |10⟩, and |11⟩.  
-🔹 **Unfair Coin Game**: Test quantum randomness versus classical probability.  
-🔹 **Correlation Explorer**: Learn how entanglement leads to quantum correlations.  
-🔹 **Teleportation Demo**: Simulate the famous quantum teleportation protocol interactively.  
+> *Note: The app may sleep after inactivity. If it’s offline, ping me to reboot it.* 
 
 ---
 
-## 🧩 Tech Stack
+## Features
 
-| Component | Technology |
-|------------|-------------|
-| **Frontend** | [Streamlit](https://streamlit.io/) |
-| **Quantum Backend** | [Qiskit](https://qiskit.org/) |
-| **Visualization** | Matplotlib, Qiskit Visualizations |
-| **Language** | Python 🐍 |
+- 🔹 **Bell State Generator** – Create and visualize all four Bell states (Φ⁺, Φ⁻, Ψ⁺, Ψ⁻).
+- 🔹 **Bloch Sphere Visualization** – Watch your qubits rotate and entangle in real-time.
+- 🔹 **Quantum Circuit Builder** – See how gates like H, X, Z, and CNOT shape your state.
+- 🔹 **Live Statevector Display** – Instantly view amplitudes of |00⟩, |01⟩, |10⟩, and |11⟩.
+- 🔹 **Unfair Coin Game** – Experience the twist of quantum randomness.
+- 🔹 **Correlation Explorer** – Explore entanglement and measure quantum correlations.
+- 🔹 **Teleportation Demo** – Simulate the iconic quantum teleportation protocol.
 
 ---
 
-## 💻 Setup Instructions
+## Tech Stack
+
+| Component           | Technology                         |
+| ------------------- | ---------------------------------- |
+| **Frontend**        | [Streamlit](https://streamlit.io/) |
+| **Quantum Backend** | [Qiskit](https://qiskit.org/)      |
+| **Visualization**   | Matplotlib, Qiskit Visualizations  |
+| **Language**        | Python 🐍                          |
+
+---
+
+## Setup Instructions
 
 ### 1️⃣ Clone the repository
+
 ```bash
 git clone https://github.com/AqibaAbdulQadir/QuantumComputing.git
 cd QuantumComputing
-````
+```
 
 ### 2️⃣ Install dependencies
 
@@ -55,37 +63,57 @@ cd QuantumComputing
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Run the Streamlit app
+### 3️⃣ Run the app
 
 ```bash
 streamlit run app.py
 ```
 
-Then open the link in your browser on localhost
+Then open the local URL in your browser. 🌐
 
 ---
 
-## 📸 Screenshots 
-### Exploring Entanglement
-![entanglement.png](Images/entanglement.png)
-### Quantum Teleportation
-![teleportation.png](Images/teleportation.png)
-### Unfair Coin Game
-![coin.png](Images/coin.png)
-### Correlation Experimentor
-![correlation.png](Images/correlation.png)
+## 🖼️ Screenshots
+
+### 🔮 Exploring Entanglement
+
+<p align="center">
+  <img src="Images/entanglement.png" width="70%">
+</p>
+
+### ⚡ Quantum Teleportation
+
+<p align="center">
+  <img src="Images/teleportation.png" width="70%">
+</p>
+
+### 🎲 Unfair Coin Game
+
+<p align="center">
+  <img src="Images/coin.png" width="70%">
+</p>
+
+### 🔗 Correlation Explorer
+
+<p align="center">
+  <img src="Images/correlation.png" width="70%">
+</p>
 
 ---
 
 ## 💡 Why I Built This
 
-This app was designed with 30+ hours of constant effort and debugging to bring to life a little idea I had in mind after the Quantum Workshop. What began as an MVP hackathon project turned in to a cool weekend pastime I couldn't help but keep developing.
+> This app was designed with over **30 hours of dedication, debugging, and late-night motivation**.
+> What began as a **hackathon MVP** became a project I genuinely loved improving.
 
-It will help students, enthusiasts, and curious minds see quantum concepts come alive without writing or running any code.
-
-It combines visual intuition (via Bloch spheres and histograms) with interactive learning making complex quantum circuits accessible, fun, and hands-on.
+It aims to help students, enthusiasts, and curious minds **see quantum mechanics come alive**, no code required.
+By combining **visual intuition** (Bloch spheres, histograms) with **interactive learning**, it makes quantum computing **accessible, fun, and hands-on**.
 
 ---
-## 💖 About the Creator!
 
-Developed with passion by **Aqiba Abdul Qadir** for TechFest'25.
+## About the Creator
+
+Developed with passion by **Aqiba Abdul Qadir** for **TechFest’25**.
+
+> *“Because quantum shouldn’t just be equations; it should be an experience.”* 
+
