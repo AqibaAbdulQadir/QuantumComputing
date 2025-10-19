@@ -13,7 +13,7 @@ Whether you're exploring **entanglement**, **superposition**, or **teleportation
 
 ## 🏁 Live Demo
 
-🌐 Try it on Streamlit Cloud at [quantumcomputingplayground.streamlit.app ](quantumcomputingplayground.streamlit.app)
+🌐 Try it on Streamlit Cloud at [quantumcomputingplayground.streamlit.app ](https://quantumcomputingplayground.streamlit.app/)<br/>
 **Note:** App will only be accessible if it isn't asleep. If it sleeps, contact me to reboot.
 
 ---
