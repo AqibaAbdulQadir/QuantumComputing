@@ -2,9 +2,6 @@
 #  Aqiba’s Quantum Playground
 
 ---
-> *Explore the mysteries of quantum mechanics with Sulphite one qubit at a time* :D
-
-
 
 <p align="center">
   <img src="https://img.shields.io/badge/Framework-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white">
