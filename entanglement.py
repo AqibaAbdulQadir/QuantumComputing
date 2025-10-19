@@ -26,6 +26,7 @@ def reset_circuit(n=2):
 
 
 def run_qasm_simulation(n=2):
+    desc = "Bob's" if n == 2 else "Bob and Charlie's"
     st.session_state.init = 1
     qc_final = st.session_state.qubits
     qc_final.barrier()
@@ -48,8 +49,12 @@ def run_qasm_simulation(n=2):
     sleep(2)
     placeholder.empty()
 
-    st.subheader(f"{'👨'if n == 2 else '👨👨🏻'} Bob{' & Charlie' if n == 3 else ''}'s Measurement Results")
-    st.markdown("Also showing Alice's measurement for correlation.")
+    st.subheader(f"{'👨'if n == 2 else '👨👨🏻'} {desc} Measurement Results")
+    st.markdown(f"""
+    The measurement histogram shows **joint probabilities** of the outcomes for all qubits.
+    Notice how certain results always occur **together** that’s a signature of **quantum correlation** (entanglement).
+    I measured {desc} state with Alice's to show the effect Alice's qubit has on {desc}.
+    """)
     st.pyplot(fig_hist)
 
 
@@ -57,15 +62,22 @@ def plot_bloch(n):
     if not st.session_state.get("init", False):
         if st.session_state.statevector is not None:
             try:
+                p = 'pair' if n == 2 else 'trio'
                 st.subheader("🌀 Entangled Qubits Bloch Sphere State")
-                st.write("Local States of entangled qubits can never be determined until measured.")
+                st.markdown(f"""
+                Even though each qubit seems to have no definite orientation on its own, the **joint state** of the {p} is perfectly defined.
+
+                That’s the essence of **entanglement**; local randomness, global order.
+                """)
                 fig_bloch = plot_bloch_multivector(st.session_state.statevector)
                 st.pyplot(fig_bloch)
                 plt.close(fig_bloch)
             except Exception as e:
                 st.warning(f"⚠️ Could not plot Bloch sphere: {e}")
 
+
 def entangle(n):
+    desc = "Bob's" if n == 2 else "Bob and Charlie's"
     if 'alice_ops' not in st.session_state:
         st.session_state.alice_ops = []
     if 'statevector' not in st.session_state:
@@ -74,10 +86,17 @@ def entangle(n):
         st.session_state.qubits = None
     if 'init' not in st.session_state:
         st.session_state.init = 0
+    st.markdown("# 🎩 The Entanglement Lab! ")
+    st.markdown(f"""
+    Here, Alice can apply quantum operations (**H**, **X**, **Z**) on her qubit. Each operation changes **how her qubit is correlated** with {desc}.  
+    Because the qubits are *entangled*, even a local operation on Alice’s side affects the **global state** of the system.""")
+    st.markdown("### 👩 Alice’s Quantum Controls (q₀)")
+    st.markdown("""
+    💡 Try different combinations to see how the **measurement results** and **Bloch spheres** change.
+    """)
 
-    st.markdown("# 👩 Alice’s Quantum Controls (q₀)")
-    desc = "Bob measures his qubit" if n == 2 else "Bob and Charlie measure their qubits"
-    st.markdown(f"Hey Alice! Choose your quantum operations before {desc}.")
+
+    # st.markdown(f"Hey Alice! Choose your quantum operations before {desc}.")
     qc = st.session_state.qubits
     col_h, col_x, col_z = st.columns(3)
     if col_h.button("H (Hadamard)", type="primary", use_container_width=True):
@@ -92,6 +111,14 @@ def entangle(n):
         qc.z(0)
         st.session_state.alice_ops.append("Z")
         if st.session_state.get("init", False): reset_circuit(n)
+    with st.expander("Gate Reference"):
+        st.markdown(f"""
+        - **Hadamard (H):** Puts the qubit into **superposition**, enabling quantum interference.  
+        - **Pauli-X (X):** Flips `|0⟩` ↔ `|1⟩` like a classical NOT gate.  
+        - **Pauli-Z (Z):** Flips the phase of `|1⟩` ↔ `−|1⟩`.
+
+        Each gate alters **Alice’s part** of the entangled state and thus changes **{desc} observed outcomes**.
+        """)
 
     st.code(f"Sequence: |Φ+> {' → '.join(st.session_state.alice_ops) if st.session_state.alice_ops else ''}")
     # st.markdown("---")
@@ -111,6 +138,7 @@ def entangle(n):
         st.success(f"Circuit reset to {'Bell' if n == 2 else 'GHZ'} State.")
 
     if col_b1.button("Run Simulation ▶️", use_container_width=True):
+
         run_qasm_simulation(n)
 
     plot_bloch(n)

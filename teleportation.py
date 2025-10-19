@@ -23,9 +23,16 @@ def advance_stage():
 def step1_ui():
     qc = st.session_state.teleport_circuit
     st.subheader("Step 1️⃣ — Encode Alice's Hidden message(q₀) using the following parameters")
-    theta = st.slider("θ (rotation around Y-axis ranging from 0 to π)", min_value=0.0, max_value=pi, step=0.001, value=0.0)
-    phi = st.slider("φ (phase around Z-axis ranging from 0 to 2π)", min_value=0.0, max_value=2*pi, step=0.001, value=0.0)
-    lamb = st.slider("λ (Added phase lambda ranging from 0 to 2π)", min_value=0.0, max_value=2*pi, step=0.001, value=0.0)
+    st.markdown("""
+    In this step, Alice prepares her **secret qubit** |ψ⟩ using rotations. The parameters (θ, φ) define a point on the **Bloch sphere**, representing the qubit’s state
+    This qubit is what Alice wants to **send to Bob**, but **without transmitting it physically**.""")
+    st.latex(r'''
+        |\psi\rangle = \cos\left(\frac{\theta}{2}\right)|0\rangle + e^{i\varphi}\sin\left(\frac{\theta}{2}\right)|1\rangle
+    ''')
+    theta = st.slider("`θ` (rotation around Y-axis ranging from 0 to π)", min_value=0.0, max_value=pi, step=0.001, value=0.0)
+    phi = st.slider("`φ` (phase around Z-axis ranging from 0 to 2π)", min_value=0.0, max_value=2*pi, step=0.001, value=0.0)
+    # lamb = st.slider("`λ` (Added phase lambda ranging from 0 to 2π)", min_value=0.0, max_value=2*pi, step=0.001, value=0.0)
+    lamb = 0
     st.session_state.theta = theta
     st.session_state.phi = phi
     st.session_state.lamb = lamb
@@ -43,10 +50,13 @@ def step2_ui():
     qc = st.session_state.teleport_circuit
     st.subheader("Step 2️⃣ 👩 — Alice's Qubit is entangled with Bob's")
     st.markdown("""
-                - q₀ → Alice's qubit (message to teleport)
-                - q₁ → Alice's half of the entangled pair
-                - q₂ → Bob's half of the entangled pair
-                """)
+    Now, Alice and Bob share an **entangled pair** (q₁ and q₂).<br/>
+    Alice applies:
+    - **Hadamard (H)** on q₁ → creates superposition  
+    - **CNOT** between q₁ → q₂ → entangles them  
+
+    The result is a **Bell state**, meaning measuring one instantly defines the other. This shared entanglement acts like a **quantum bridge** between Alice and Bob.
+    """, unsafe_allow_html=True)
     qc.h(1)
     qc.cx(1, 2)
     qc.barrier()
@@ -58,6 +68,13 @@ def step2_ui():
 def step3_ui():
     qc = st.session_state.teleport_circuit
     st.subheader("Step 3️⃣ 👩 — Alice Entangles Her Qubit with the Shared Pair")
+    st.markdown("""
+    Alice now entangles her **message qubit (q₀)** with her part of the **entangled pair (q₁)** using:
+    1. **CNOT**: couples the message to q₁  
+    2. **Hadamard**: puts q₀ into superposition
+    After this, the 3-qubit system holds all information needed for teleportation.<br/>
+    But the message itself is now **distributed** across the system; no single qubit “has” it anymore.
+    """, unsafe_allow_html=True)
     qc.cx(0, 1)
     qc.h(0)
     qc.barrier()
@@ -68,15 +85,21 @@ def step3_ui():
 
 def step4_ui():
     st.subheader("Step 4️⃣ 👩 — Alice Measures Her Qubits (q₀ and q₁)")
+    st.markdown("""
+    Alice measures her two qubits q₀ and q₁.  
+    These **classical bits** collapse her part of the system and carry the information Bob needs to **reconstruct** |ψ⟩.
+    At this point, Bob’s qubit (q₂) is in a scrambled version of |ψ⟩, depending on Alice’s results.<br/>
+    We apply measurement through 1024 shots and send these classical bit measurements to Bob as well. 
+    """, unsafe_allow_html=True)
 
     qc = st.session_state.teleport_circuit
     qc.measure([0, 1], [0, 1])
     qc.barrier()
 
-    # backend = Aer.get_backend('aer_simulator')
-    # result = backend.run(qc, shots=1024).result()
-    # counts = result.get_counts()
-    # st.pyplot(plot_histogram(counts))
+    backend = Aer.get_backend('aer_simulator')
+    result = backend.run(qc, shots=1024).result()
+    counts = result.get_counts()
+    st.pyplot(plot_histogram(counts))
     show_circuit_and_bloch(qc)
 
     st.button("Next: Bob's Corrections ▶️", on_click=advance_stage)
@@ -84,6 +107,21 @@ def step4_ui():
 
 def step5_ui():
     st.subheader("Step 5️⃣ 👨 — Bob Applies Corrections")
+    st.markdown("""
+    Bob now uses Alice’s two classical bits to decide which correction gates to apply.<br/>
+     If 0th bit is 1, apply X. If 1st bit is 1, apply Z:
+
+    | Measurement Result | Operation on Bob’s qubit |
+    |--------------------:|:------------------------|
+    | 00 | (do nothing) |
+    | 01 | X |
+    | 10 | Z |
+    | 11 | XZ |
+
+    After applying these, Bob’s qubit **becomes identical** to Alice’s original |ψ⟩, the quantum state has been **teleported!**
+
+    `Notice:` no quantum particle traveled, only two classical bits were sent.
+    """, unsafe_allow_html=True)
     qc = st.session_state.teleport_circuit
 
     with qc.if_test((0, 1)):
@@ -111,7 +149,13 @@ def step5_ui():
 
 
 def step6_ui():
-    st.subheader("Step 6️⃣ 👨 — Verification using inverse(q₂ should be |0>)")
+    st.subheader("Step 6️⃣ 👨 — Verification using inverse(q₂ should be `|0>`)")
+    st.markdown("""
+    Finally, we apply the **inverse** of Alice’s original unitary operation on Bob’s qubit.  
+    If teleportation worked correctly, Bob’s qubit will return to `|0⟩`, confirming the success.
+
+    This demonstrates the **fidelity of quantum teleportation**, the original state was perfectly transferred using entanglement and classical communication.
+    """)
     qc = st.session_state.teleport_circuit
 
     qc.u(st.session_state.theta, st.session_state.phi, st.session_state.lamb, 2).inverse()
@@ -135,7 +179,7 @@ def step6_ui():
 
 def teleportation():
     st.title("📡 Quantum Teleportation Protocol")
-    st.markdown('---')
+    # st.markdown('---')
 
     if "stage" not in st.session_state:
         initialize_state()

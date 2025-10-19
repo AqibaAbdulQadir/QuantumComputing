@@ -42,6 +42,7 @@ with st.sidebar:
         if choice:
             st.session_state.mode = choice
             reset_circuit(n=3 if '3' in choice else 2)
+            initialize_state()
             st.toast(f"✨ Launching {choice}...")
             sleep(1)
             st.rerun()
